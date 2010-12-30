@@ -1,0 +1,44 @@
+--- src/m2vcut-gui.c~	2009-01-24 12:04:23.000000000 +0100
++++ src/m2vcut-gui.c	2010-12-20 19:22:21.000000000 +0100
+@@ -7,7 +7,7 @@
+  xo="`pkg-config --cflags --libs gtk+-2.0` -lutil $mpeg2_both"
+  xo="$xo -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+  date=`date`; set -x
+-${CC:-gcc} -ggdb -std=gnu99 $WARN "$@" -o "$TRG" "$0" $xo -DCDATE="\"$date\""
++${CC:-gcc} -ggdb -std=gnu99 $RPM_OPT_FLAGS "$@" -o "$TRG" "$0" $xo -DCDATE="\"$date\""
+ # ${CC:-gcc} -O2 -std=c99 $WARN "$@" -o "$TRG" "$0" $xo -DCDATE="\"$date\""
+  exit 0
+  */
+--- src/m2vtoyuv.c~	2009-01-24 12:04:23.000000000 +0100
++++ src/m2vtoyuv.c	2010-12-20 19:25:06.000000000 +0100
+@@ -7,7 +7,7 @@
+  XF="$mpeg2_only -DLARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+  date=`date`; set -x
+  #${CC:-gcc} -ggdb $WARN "$@" -o "$TRG" "$0" $XF -DCDATE="\"$date\""
+- ${CC:-gcc} -O2 $WARN "$@" -o "$TRG" "$0" $XF -DCDATE="\"$date\""
++ ${CC:-gcc} $RPM_OPT_FLAGS "$@" -o "$TRG" "$0" $XF -DCDATE="\"$date\""
+  exit 0
+  */
+ #endif
+--- src/warpxpointer.c~	2009-01-24 12:04:23.000000000 +0100
++++ src/warpxpointer.c	2010-12-20 19:23:22.000000000 +0100
+@@ -5,7 +5,7 @@
+  WARN="$WARN -W -Wwrite-strings -Wcast-qual -Wshadow" # -Wconversion
+  date=`date`; set -x
+  #${CC:-gcc} -ggdb $WARN "$@" -o "$TRG" "$0" -DCDATE="\"$date\""
+- ${CC:-gcc} -O2 $WARN "$@" -o "$TRG" "$0" -lX11 -DCDATE="\"$date\""
++ ${CC:-gcc} $RPM_OPT_FLAGS "$@" -o "$TRG" "$0" -lX11 -DCDATE="\"$date\""
+  exit $?
+  */
+ #endif
+--- src/wavgraph.c~	2009-01-24 12:04:23.000000000 +0100
++++ src/wavgraph.c	2010-12-20 19:22:50.000000000 +0100
+@@ -5,7 +5,7 @@
+  WARN="$WARN -W -Wwrite-strings -Wcast-qual -Wshadow" # -Wconversion
+  date=`date`; set -x
+  #${CC:-gcc} -ggdb -std=gnu99 $WARN "$@" -o "$TRG" "$0" -DCDATE="\"$date\""
+- ${CC:-gcc} -O2 -std=gnu99 $WARN "$@" -o "$TRG" "$0" obj_b/x.o
++ ${CC:-gcc} -std=gnu99 $RPM_OPT_FLAGS "$@" -o "$TRG" "$0" obj_b/x.o
+  exit $?
+  */
+ #endif

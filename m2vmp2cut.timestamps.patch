@@ -1,0 +1,17 @@
+--- Makefile~	2010-12-13 14:08:29.000000000 +0100
++++ Makefile	2010-12-13 14:37:33.000000000 +0100
+@@ -50,10 +50,10 @@
+ 	chkdir $(PREFIX)/libexec/m2vmp2cut-$(VER)/bin; \
+ 	chkdir $(PREFIX)/share/m2vmp2cut; \
+ 	chkdir $(PREFIX)/libexec/m2vmp2cut-$(VER)/contrib
+-	cp $(TRG_BINS:%=bin/%) $(PREFIX)/libexec/m2vmp2cut-$(VER)/bin
+-	cp $(TRG_DOCS:%=doc/%) $(PREFIX)/share/m2vmp2cut
+-	cp contrib/* $(PREFIX)/libexec/m2vmp2cut-$(VER)/contrib
+-	cp m2vmp2cut $(PREFIX)/bin/m2vmp2cut
++	cp -p $(TRG_BINS:%=bin/%) $(PREFIX)/libexec/m2vmp2cut-$(VER)/bin
++	cp -p $(TRG_DOCS:%=doc/%) $(PREFIX)/share/m2vmp2cut
++	cp -p contrib/* $(PREFIX)/libexec/m2vmp2cut-$(VER)/contrib
++	cp -p m2vmp2cut $(PREFIX)/bin/m2vmp2cut
+ 	@test x'$(PJXJAR)' = x || \
+ 	  ln -s $(PJXJAR) $(PREFIX)/lib/m2vmp2cut-$(VER)/bin/ProjectX.jar
+ #	v=$(VER); sed "s/=devel/=$$v/" m2vmp2cut > $(PREFIX)/bin/m2vmp2cut

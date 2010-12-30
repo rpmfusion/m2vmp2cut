@@ -1,0 +1,40 @@
+--- Makefile~	2009-11-21 11:24:30.000000000 +0100
++++ Makefile	2010-12-11 23:20:17.000000000 +0100
+@@ -44,15 +44,15 @@
+ 	@test -f m2vmp2cut
+ 
+ install: chkfiles chkprefix chkpjxjar
+-	@rm -rf $(PREFIX)/lib/m2vmp2cut-$(VER)
++	@rm -rf $(PREFIX)/libexec/m2vmp2cut-$(VER)
+ 	@chkdir() { [ -d "$$1" ] || mkdir -m 755 -p "$$1"; }; \
+-	chkdir $(PREFIX)/lib/m2vmp2cut-$(VER); chkdir $(PREFIX)/bin;  \
+-	chkdir $(PREFIX)/lib/m2vmp2cut-$(VER)/bin; \
++	chkdir $(PREFIX)/libexec/m2vmp2cut-$(VER); chkdir $(PREFIX)/bin;  \
++	chkdir $(PREFIX)/libexec/m2vmp2cut-$(VER)/bin; \
+ 	chkdir $(PREFIX)/lib/m2vmp2cut-$(VER)/doc; \
+-	chkdir $(PREFIX)/lib/m2vmp2cut-$(VER)/contrib
+-	cp $(TRG_BINS:%=bin/%) $(PREFIX)/lib/m2vmp2cut-$(VER)/bin
++	chkdir $(PREFIX)/libexec/m2vmp2cut-$(VER)/contrib
++	cp $(TRG_BINS:%=bin/%) $(PREFIX)/libexec/m2vmp2cut-$(VER)/bin
+ 	cp $(TRG_DOCS:%=doc/%) $(PREFIX)/lib/m2vmp2cut-$(VER)/doc
+-	cp contrib/* $(PREFIX)/lib/m2vmp2cut-$(VER)/contrib
++	cp contrib/* $(PREFIX)/libexec/m2vmp2cut-$(VER)/contrib
+ 	cp m2vmp2cut $(PREFIX)/bin/m2vmp2cut
+ 	@test x'$(PJXJAR)' = x || \
+ 	  ln -s $(PJXJAR) $(PREFIX)/lib/m2vmp2cut-$(VER)/bin/ProjectX.jar
+--- m2vmp2cut~	2009-11-21 11:25:18.000000000 +0100
++++ m2vmp2cut	2010-12-12 10:47:55.000000000 +0100
+@@ -19,11 +19,11 @@
+ 
+ case $dn in
+     *bin)
+-	c1="$dn/../lib/m2vmp2cut-$ver/bin/m2vmp2cut.sh"
++	c1="$dn/../libexec/m2vmp2cut-$ver/bin/m2vmp2cut.sh"
+ 	test -x "$c1" && exec "$c1" "$@" \
+ 		|| exec "$dn/bin/m2vmp2cut.sh" "$@" ;;
+     *)
+     	c1="$dn/bin/m2vmp2cut.sh"
+ 	test -x "$c1" && exec "$c1" "$@" \
+-		|| exec "$dn/../lib/m2vmp2cut-$ver/bin/m2vmp2cut.sh" "$@" ;;
++		|| exec "$dn/../libexec/m2vmp2cut-$ver/bin/m2vmp2cut.sh" "$@" ;;
+ esac
