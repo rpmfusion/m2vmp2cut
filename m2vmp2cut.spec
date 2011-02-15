@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.79
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -25,8 +25,21 @@ Requires: bash
 Requires: libmpeg2 >= 0.5.1
 Requires: transcode
 
-%filter_from_requires /perl(m2vmp2cut)/d
-%filter_setup
+# The current way to exclude requirements is like this:
+# % filter_from_requires /perl(m2vmp2cut)/d
+# % filter_setup
+
+# However, because of bug http://bugzilla.rpmfusion.org/show_bug.cgi?id=1580
+# that doesn't work.  Until fixed, I'll revert to the old style of exclusion.
+cat << \EOF > %name-req
+#!/bin/sh
+%__perl_requires $* |\
+sed -e '/perl(%name)/d'
+EOF
+
+%global __perl_requires %_builddir/%name-%version-dev/%name-req
+chmod +x %__perl_requires
+
 
 %description
 m2vmp2cut is frame accurate (currently PAL) mpeg2 video (m2v file)
@@ -83,6 +96,10 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Feb 15 2011 Göran Uddeborg <goeran@uddeborg.se> 0.79-6
+- Revert to old style perl requirement exclusion, since bug 1580 seems
+  to take a while to get fixed.
+
 * Mon Dec 27 2010 Göran Uddeborg <goeran@uddeborg.se> 0.79-5
 - Simplify optimization patch, by not modifying the makefile where it only
   does linking.
