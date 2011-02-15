@@ -30,15 +30,8 @@ Requires: transcode
 # % filter_setup
 
 # However, because of bug http://bugzilla.rpmfusion.org/show_bug.cgi?id=1580
-# that doesn't work.  Until fixed, I'll revert to the old style of exclusion.
-cat << \EOF > %name-req
-#!/bin/sh
-%__perl_requires $* |\
-sed -e '/perl(%name)/d'
-EOF
-
-%global __perl_requires %_builddir/%name-%version-dev/%name-req
-chmod +x %__perl_requires
+# that doesn't work.  Until fixed, I'll revert to the old style of exclusion
+# at the end of the prep section.
 
 
 %description
@@ -71,6 +64,17 @@ a/v-synkroniseringen så bra som möjligt (maximal synkroniseringskillnad
 %patch2
 # Preserve timestamps when installing
 %patch3
+
+# Old style removal of perl requirements.
+cat << \EOF > %name-req
+#!/bin/sh
+%__perl_requires $* |\
+sed -e '/perl(%name)/d'
+EOF
+
+%global __perl_requires %_builddir/%name-%version-dev/%name-req
+chmod +x %__perl_requires
+
 
 %build
 unset CCACHE_UMASK
