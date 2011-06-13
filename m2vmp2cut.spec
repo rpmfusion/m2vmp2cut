@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.79
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -13,6 +13,7 @@ Patch0: %{name}.optflags.patch
 Patch1: %{name}.libexec.patch
 Patch2: %{name}.help-in-share.patch
 Patch3: %{name}.timestamps.patch
+Patch4: %{name}.demuxpath.patch
 BuildRequires: libtool
 BuildRequires: gtk2-devel
 BuildRequires: libmpeg2-devel
@@ -64,6 +65,10 @@ a/v-synkroniseringen så bra som möjligt (maximal synkroniseringskillnad
 %patch2
 # Preserve timestamps when installing
 %patch3
+# Bug which appears when trying to demux on a file not in the current
+# directory.  It is reported upstreams via email, and the fix will be
+# integrated in a future version of m2vmp2cut
+%patch4 -p1
 
 # Old style removal of perl requirements.
 cat << \EOF > %name-req
@@ -100,6 +105,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Jun 13 2011 Göran Uddeborg <goeran@uddeborg.se> 0.79-7
+- Apply a fix for a bug when giving a path to a file to demux.
+
 * Tue Feb 15 2011 Göran Uddeborg <goeran@uddeborg.se> 0.79-6
 - Revert to old style perl requirement exclusion, since bug 1580 seems
   to take a while to get fixed.

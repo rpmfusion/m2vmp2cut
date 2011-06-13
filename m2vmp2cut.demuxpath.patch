@@ -1,0 +1,13 @@
+diff --git a/bin/m2vmp2cut.sh b/bin/m2vmp2cut.sh
+index af33a61..d2fcc89 100755
+--- a/bin/m2vmp2cut.sh
++++ b/bin/m2vmp2cut.sh
+@@ -101,7 +101,7 @@ cmd_demux () # Demux mpeg2 file[s] with ProjectX for further editing...
+ 
+ 	test -d "$dir" && die "Directory '$dir' is on the way (demuxed already)?"
+ 	mkdir "$dir"
+-	x $pjx -ini /dev/null -out "$dir" $basename ${1+"$@"}
++	x $pjx -ini /dev/null -out "$dir" "$dn/$basename" ${1+"$@"}
+ 	cd "$dir"
+ 	ln -s *.m2v video.m2v
+ 	ln -s *.mp2 audio.mp2
