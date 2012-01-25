@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.79
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -105,6 +105,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Wed Jan 25 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.79-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Jun 13 2011 Göran Uddeborg <goeran@uddeborg.se> 0.79-7
 - Apply a fix for a bug when giving a path to a file to demux.
 
