@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.79
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -26,13 +26,8 @@ Requires: bash
 Requires: libmpeg2 >= 0.5.1
 Requires: transcode
 
-# The current way to exclude requirements is like this:
-# % filter_from_requires /perl(m2vmp2cut)/d
-# % filter_setup
-
-# However, because of bug http://bugzilla.rpmfusion.org/show_bug.cgi?id=1580
-# that doesn't work.  Until fixed, I'll revert to the old style of exclusion
-# at the end of the prep section.
+%filter_from_requires /perl(m2vmp2cut)/d
+%filter_setup
 
 
 %description
@@ -70,16 +65,6 @@ a/v-synkroniseringen så bra som möjligt (maximal synkroniseringskillnad
 # integrated in a future version of m2vmp2cut
 %patch4 -p1
 
-# Old style removal of perl requirements.
-cat << \EOF > %name-req
-#!/bin/sh
-%__perl_requires $* |\
-sed -e '/perl(%name)/d'
-EOF
-
-%global __perl_requires %_builddir/%name-%version-dev/%name-req
-chmod +x %__perl_requires
-
 
 %build
 unset CCACHE_UMASK
@@ -105,6 +90,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sun Mar 18 2012 Göran Uddeborg <goeran@uddeborg.se> 0.79-9
+- Bug 1580 is fixed; move to new style perl requirement filtering.
+
 * Wed Jan 25 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.79-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
