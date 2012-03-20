@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.79
-Release: 9%{?dist}
+Release: 10%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -26,8 +26,10 @@ Requires: bash
 Requires: libmpeg2 >= 0.5.1
 Requires: transcode
 
+%{?filter_setup:
 %filter_from_requires /perl(m2vmp2cut)/d
 %filter_setup
+}
 
 
 %description
@@ -90,6 +92,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Mar 20 2012 Göran Uddeborg <goeran@uddeborg.se> 0.79-10
+- There should still be a guard around the perl filtering.
+
 * Sun Mar 18 2012 Göran Uddeborg <goeran@uddeborg.se> 0.79-9
 - Bug 1580 is fixed; move to new style perl requirement filtering.
 
