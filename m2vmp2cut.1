@@ -1,71 +1,133 @@
-.TH m2vmp2cut 1 2010-12-13
+.TH m2vmp2cut 1 2012-10-18
 .SH NAME
 m2vmp2cut \- MPEG2 frame accurate cutter
 .SH SYNOPSIS
 .B m2vmp2cut
+.RB [ -batch ]
+.RI ( file | directory )
 .I command
 .RI [ argument "... ]"
 .SH DESCRIPTION
 .B M2vmp2cut
-is frame accurate (currently PAL) mpeg2 video (m2v file) with
+is a command-line driven frame accurate (currently PAL) mpeg2 video
+(m2v file) with
 accompanied mp2 audio (mp2 file) cutter.
 Frame accuracy is achieved by re-encoding video around cutpoints.
 Audio is cut from separate mp2 file at positions that keep a/v sync as
 good as possible (maximum sync difference is around 10-15
 milliseconds).
+.PP
+M2vmp2cut requires 2 arguments,
+.IR file / directory
+and
+.IR command .
+Enter `.' as the file/directory argument when it is irrelevant.
+The following commands are available:
 .TP
-.B lvev6frames
+.B "lvev6frames !"
 Old versions of m2vmp2cut supported using lve-generated "edit lists"
 for cutpoint information.
-With lvev6frames these old edits can be used with this m2vmp2cut
+With
+.B lvev6frames
+these old edits can be used with this m2vmp2cut
 version.
+This is a deprecated feature.
+To use this the `!' needs to be added to the command line.
 .TP
-\fBdemux\fP [\fIfile\fP...]
+\fBdemux\fP [\fIprojectx options\fP]
 .B M2vmp2cut
 requires mpeg files to be demuxed to elementary streams before
 cutting.
 This command uses
 .BR ProjectX (1)
 to do the demuxing.
-A separate directory (based on source filename) is created for output
+A separate directory (in current directory, based on source filename)
+is created for output
 files.
-Note that this doubles the disk usage of a particular source file.
+.I "projectx options"
+may contain e.g. more filenames to be demuxed into output streams.
 .TP
-\fBselect\fP \fIdirectory\fP
+.B select
 This command uses new
 .B m2vcut-gui
 graphical utility for searching cutpoints.
 This work is done frame-accurately.
 .TP
-\fBcut\fP \fIdirectory\fP [\fIoption\fP...]
+\fBcut\fP [\fIoptions\fP] ...
 This command is wrapper to m2vmp2cut.pl (which used to be the frontend
 of m2vmp2cut in old versions).
-This command has extensive help of it's own.
+This command has extensive help.
 Note that this (again) adds one third of disk usage so far when this
 creates final output file.
 .TP
-\fBplay\fP \fIdirectory\fP [\fIoption\fP...]
-This command runs mplayer for the file created with cut command.
+\fBplay\fP [\fIoptions\fP]
+This command runs
+.BR mplayer (1)
+for the file created with cut command.
 .TP
-\fBmove\fP \fIdirectory\fP \fIdestfile\fP
+\fBmove\fP \fIdestfile\fP
 Moves final output file to a new destination.
 .TP
-\fBgetyuv\fP [\fIdirectory\fP|\fBexamples\fP]
+\fBgetyuv\fP [\fBexamples\fP]
 Decodes selected mpeg2 frames as a stream of yuv4mpeg pictures.
 Useful for further encoding.
+If an
+.B examples
+argument is given this command provides example output.
 .TP
-\fBgetmp2\fP [\fIdirectory\fP|\fBexamples\fP]
+\fBgetmp2\fP [\fBexamples\fP]
 Extracts selected mp2 audio data, to be muxed with (re-encoded) video.
 Mp2 data can be used as is, or as encoded to mp3 or vorbis.
+If an
+.B examples
+argument is given this command provides example output.
 .TP
 .B help
-Display help message.
+Display an help message.
 .TP
 .B contrib
 Contribution material.
 Mostly encoding scripts.
 The command line interface of the programs these scripts invoke may
-change over time \(em there is less quarantees that these work in
+change over time \(em there is less guarantees that these work in
 future than other
 .B m2vmp2cut
 functionality, in short term period.
+.SH EXAMPLE
+First run:
+.IP
+m2vmp2cut \fImpeg2_file\fP demux \fImore mpeg2 files or other ProjectX opts\fP
+.PP
+to demultiplex the source mpeg2, then execute GUI for cutpoint hunt:
+.IP
+m2vmp2cut \fImpeg2_file/demux_outputdir\fP select
+.PP
+.I "demux outdir"
+is derived from the original mpeg2 file by removing latest suffix
+after dot (.) and replacing that with '.d'.
+.PP
+In order for to
+.I select
+to work the directory where m2v and mp2 files were demuxed
+must have
+.I video.m2v
+symlinked to the video and
+.I audio.mp2
+to the audio;
+if those exist, the
+.I select
+tool can be used to continue with content demuxed
+by something else than m2vmp2cut.
+.PP
+After selection of cutpoints are done, the
+.I cut
+command will create a new mpeg2 file from the selected contents,
+re-encoding some video frames to achieve frame accuracy.
+Audio frames don't require any re-encoding.
+Alternatively, there are some scripts in the 
+.I contrib
+directory which can re-encode the selected material to other
+formats.
+The
+.I contrib
+command will show available contrib scripts.

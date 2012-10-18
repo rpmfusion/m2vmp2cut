@@ -1,19 +1,13 @@
 Name: m2vmp2cut
-Version: 0.79
-Release: 10%{?dist}
+Version: 0.86
+Release: 1%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
-Group: Applications/Multimedia
 License: GPLv2
 URL: http://www.guru-group.fi/~too/sw/%{name}/
-Source0: http://www.guru-group.fi/~too/sw/%{name}/%{name}-%{version}-dev.tar.gz
+Source0: http://www.guru-group.fi/~too/sw/%{name}/%{name}-%{version}.tar.xz
 Source1: %{name}.1
-Patch0: %{name}.optflags.patch
-Patch1: %{name}.libexec.patch
-Patch2: %{name}.help-in-share.patch
-Patch3: %{name}.timestamps.patch
-Patch4: %{name}.demuxpath.patch
 BuildRequires: libtool
 BuildRequires: gtk2-devel
 BuildRequires: libmpeg2-devel
@@ -49,49 +43,51 @@ närvarande PAL, m2v-fil) med tillhörande mp2-audio (mp2-fil).
 Bildprecision åstadkoms med omkodning av video runt snittpunkter.
 
 Audio klipps från en separat mp2-fil på positions som håller
-a/v-synkroniseringen så bra som möjligt (maximal synkroniseringskillnad
+a/v-synkroniseringen så bra som möjligt (maximal synkroniseringsskillnad
 är runt 10-15 millisekunder).
 
 %prep
-%setup -q -n %{name}-%{version}-dev
-# Insert optimizer flags where needed
-%patch0
-# Put helper programs in libexec
-%patch1
-# Put help files in /usr/share
-%patch2
-# Preserve timestamps when installing
-%patch3
-# Bug which appears when trying to demux on a file not in the current
-# directory.  It is reported upstreams via email, and the fix will be
-# integrated in a future version of m2vmp2cut
-%patch4 -p1
+%setup -q
 
 
 %build
-unset CCACHE_UMASK
-make %{?_smp_mflags} CFLAGS='%{optflags} $(LF_OPTS)'
+make %{?_smp_mflags} OPTFLAGS='%{optflags}'
+
 
 %install
-# Put a dummy projectx in the path.  At run time, the real projectx
-# script will be used.  With this trick we do not have to have
-# ProjectX as a BuildRequires.
+# Put dummy versions of a few commands the path.  At run time, the
+# real programs will be used, the package requirements ensures that.
+# At build time only their existence is tested.  With this trick we do
+# not have to add a lot of essentially unused stuff as a
+# BuildRequires.
 mkdir dummybin
-touch dummybin/projectx
-chmod +x dummybin/projectx
-PATH=$(pwd)/dummybin:$PATH make install PREFIX=%{buildroot}%{_prefix}
+for command in projectx java mplex
+do  touch dummybin/$command
+    chmod +x dummybin/$command
+done
+PATH=$(pwd)/dummybin:$PATH make install PREFIX=%{_prefix} \
+	LIBEXECDIR=%{_libexecdir}/%{name} DATAROOTDIR=%{_datadir} \
+	DESTDIR=%{buildroot}
 mkdir -p %{buildroot}%{_mandir}/man1
 cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 
 %files
 %defattr(-,root,root,-)
-%doc ANNOUNCE COPYING HISTORY README TODO
+%doc ANNOUNCE COPYING NEWS README
 %{_bindir}/%{name}
-%{_libexecdir}/%{name}-%{version}-dev
-%{_datadir}/%{name}
+%{_libexecdir}/%{name}
+%{_datadir}/doc/%{name}-%{version}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sun Oct  7 2012 Göran Uddeborg <goeran@uddeborg.se> 0.86-1
+- Upgrade to version 0.86.
+- All patches have been included upstreams, in one way or another, and
+  are removed from the RPM
+- Remove "dev" directory suffix since this is an official release.
+- More dummy programs needed during build.
+- The manual page updated to match the current documentation.
+
 * Tue Mar 20 2012 Göran Uddeborg <goeran@uddeborg.se> 0.79-10
 - There should still be a guard around the perl filtering.
 
