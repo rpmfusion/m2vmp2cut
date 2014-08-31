@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.86
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -80,6 +80,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 0.86-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Fri Oct 19 2012 Göran Uddeborg <goeran@uddeborg.se> 0.86-2
 - The time stamp on the 0.86-1 changelog got wrong.  Corrected now.
 
