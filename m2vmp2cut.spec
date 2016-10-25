@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.86
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -11,6 +11,7 @@ Source1: %{name}.1
 BuildRequires: libtool
 BuildRequires: gtk2-devel
 BuildRequires: libmpeg2-devel
+BuildRequires: perl-generators
 
 Requires: ProjectX
 Requires: mjpegtools
@@ -72,14 +73,24 @@ mkdir -p %{buildroot}%{_mandir}/man1
 cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 
 %files
-%defattr(-,root,root,-)
-%doc ANNOUNCE COPYING NEWS README
+%if 0%{?_licensedir:1}
+%license COPYING
+%else
+%doc COPYING
+%endif
+%doc ANNOUNCE NEWS README
 %{_bindir}/%{name}
 %{_libexecdir}/%{name}
 %{_datadir}/doc/%{name}-%{version}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Oct 25 2016 Paul Howarth <paul@city-fan.org> - 0.86-4
+- BR: perl-generators for proper dependency generation
+  (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
+- Use %%license where possible
+- Drop %%defattr, redundant since rpm 4.4
+
 * Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 0.86-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
