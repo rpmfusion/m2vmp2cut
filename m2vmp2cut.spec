@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.86
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -85,6 +85,9 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.86-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Oct 25 2016 Paul Howarth <paul@city-fan.org> - 0.86-4
 - BR: perl-generators for proper dependency generation
   (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
