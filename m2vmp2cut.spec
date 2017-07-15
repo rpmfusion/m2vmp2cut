@@ -1,6 +1,6 @@
 Name: m2vmp2cut
 Version: 0.86
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: MPEG2 frame accurate cutter
 Summary(sv): MPEG2 bildprecis redigerare
 
@@ -15,6 +15,7 @@ BuildRequires: perl-generators
 
 Requires: ProjectX
 Requires: mjpegtools
+Requires: perl-interpreter
 Requires: python
 Requires: xterm
 Requires: bash
@@ -85,6 +86,11 @@ cp -p %{SOURCE1} %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Jul 15 2017 Paul Howarth <paul@city-fan.org> - 0.86-6
+- Perl 5.26 rebuild
+- Add perl-interpreter dependency
+  (https://fedoraproject.org/wiki/Changes/perl_Package_to_Install_Core_Modules)
+
 * Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.86-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
